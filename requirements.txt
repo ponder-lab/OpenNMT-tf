@@ -1,0 +1,6 @@
+# Packages the library needs on top of an environment providing TensorFlow 2.9.3, NumPy and SciPy.
+# TensorFlow Addons 0.17 is the line for TensorFlow 2.9 and needs typeguard 2.x; the upstream pins
+# (tensorflow-addons 0.6.0, pyyaml 5.1) have no Python 3.10 builds.
+tensorflow-addons==0.17.1
+typeguard==2.13.3
+PyYAML==6.0.1
