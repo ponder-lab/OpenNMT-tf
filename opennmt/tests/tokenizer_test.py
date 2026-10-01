@@ -184,7 +184,6 @@ class TokenizerTest(tf.test.TestCase):
     def testOpenNMTTokenizerInFunction(self):
         tokenizer = tokenizers.OpenNMTTokenizer()
 
-        @tf.function
         def _tokenize(text):
             return tokenizer.tokenize(text)
 

@@ -56,13 +56,13 @@ class OptimizerTest(tf.test.TestCase):
             sgd = tf.keras.optimizers.SGD(1.0)
             gradient_placeholder = tf.Variable([0.0, 0.0], trainable=False)
 
+        @tf.function
         def accumulate_on_replica(gradient):
             accumulator([gradient])
 
         def apply_on_replica():
             sgd.apply_gradients(list(zip(accumulator.gradients, [variable])))
 
-        @tf.function
         def accumulate(grad1, grad2):
             with strategy.scope():
                 local_variables = strategy.experimental_local_results(
@@ -72,7 +72,6 @@ class OptimizerTest(tf.test.TestCase):
                 local_variables[1].assign(grad2)
                 strategy.run(accumulate_on_replica, args=(gradient_placeholder,))
 
-        @tf.function
         def apply_grad():
             with strategy.scope():
                 strategy.run(apply_on_replica)

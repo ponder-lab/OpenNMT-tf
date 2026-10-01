@@ -46,6 +46,7 @@ class ConvEncoder(Encoder):
             for _ in range(num_layers_c)
         ]
 
+    @tf.function
     def call(self, inputs, sequence_length=None, training=None):
         if self.position_encoder is not None:
             inputs = self.position_encoder(inputs)

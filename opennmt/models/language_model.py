@@ -58,6 +58,7 @@ class LanguageModel(model.SequenceGenerator):
         if self.reuse_embedding:
             self.decoder.reuse_embeddings(self.examples_inputter.embedding)
 
+    @tf.function
     def call(self, features, labels=None, training=None, step=None):
         outputs, predictions = None, None
 

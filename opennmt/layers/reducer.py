@@ -8,6 +8,7 @@ import tensorflow as tf
 from opennmt.utils import tensor as tensor_util
 
 
+@tf.function
 def pad_in_time(x, padding_length):
     """Helper function to pad a tensor in the time dimension and retain the
     static depth dimension.
@@ -15,6 +16,7 @@ def pad_in_time(x, padding_length):
     return tf.pad(x, [[0, 0], [0, padding_length], [0, 0]])
 
 
+@tf.function
 def align_in_time(x, length):
     """Aligns the time dimension of :obj:`x` with :obj:`length`."""
     time_dim = tf.shape(x)[1]

@@ -66,6 +66,7 @@ class SequenceTagger(Model):
             predictions = None
         return logits, predictions
 
+    @tf.function
     def compute_loss(self, outputs, labels, training=True):
         if self.crf_decoding:
             log_likelihood, _ = tfa.text.crf_log_likelihood(
@@ -98,6 +99,7 @@ class SequenceTagger(Model):
             metrics["recall"] = f1.recall
         return metrics
 
+    @tf.function
     def update_metrics(self, metrics, predictions, labels):
         weights = tf.sequence_mask(
             labels["length"], maxlen=tf.shape(labels["tags"])[1], dtype=tf.float32

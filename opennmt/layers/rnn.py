@@ -229,6 +229,7 @@ class LSTM(tf.keras.layers.Layer):
             for layer in rnn_layers
         ]
 
+    @tf.function
     def call(self, inputs, mask=None, training=None, initial_state=None):
         all_states = []
         for i, layer in enumerate(self.layers):
