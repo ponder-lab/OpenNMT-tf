@@ -1,0 +1,13 @@
+# Packages OpenNMT-tf needs on top of an environment providing TensorFlow 2.9.3 and NumPy 1.23.5,
+# for examples/library/custom_transformer_training.py. The package is not installed; the example
+# imports it from the source tree. These are setup.py's install_requires, pinned to versions that
+# install on Python 3.10 alongside TensorFlow 2.9.3 without changing it.
+#
+# TensorFlow Addons 0.17 is the line for TensorFlow 2.9 and needs typeguard 2.x.
+tensorflow-addons==0.17.1
+typeguard==2.13.3
+ctranslate2==2.24.0
+pyonmttok==1.38.1
+pyyaml==6.0.3
+rouge==1.0.1
+sacrebleu==2.2.1
