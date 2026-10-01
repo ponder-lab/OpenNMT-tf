@@ -13,6 +13,8 @@ training a bigger model, using a larger batch size via multi GPU training and/or
 gradient accumulation, etc.
 """
 
+from scripts.utils import write_csv
+import timeit
 import argparse
 import logging
 
@@ -127,22 +129,39 @@ def train(
         optimizer.apply_gradients(list(zip(gradients, variables)))
         return loss
 
+    start_time = timeit.default_timer()
+    skipped_time = 0
+
+    total_loss = 0
+    loss_count = 0
+
     # Runs the training loop.
     for source, target in dataset:
         loss = training_step(source, target)
         step = optimizer.iterations.numpy()
+        total_loss += loss
+        loss_count += 1
         if step % report_every == 0:
+            print_time = timeit.default_timer()
             tf.get_logger().info(
                 "Step = %d ; Learning rate = %f ; Loss = %f",
                 step,
                 learning_rate(step),
                 loss,
             )
+            skipped_time += timeit.default_timer() - print_time
         if step % save_every == 0:
+            save_time = timeit.default_timer()
             tf.get_logger().info("Saving checkpoint for step %d", step)
             checkpoint_manager.save(checkpoint_number=step)
+            skipped_time += timeit.default_timer() - save_time
         if step == train_steps:
             break
+
+    time = timeit.default_timer() - start_time - skipped_time
+    avg_loss = float(total_loss) / float(loss_count)
+
+    write_csv(__file__, epochs=train_steps, loss=avg_loss, time=time)
 
 
 def translate(source_file, batch_size=32, beam_size=4):
