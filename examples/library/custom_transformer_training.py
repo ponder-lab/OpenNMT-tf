@@ -93,7 +93,6 @@ def train(
         maximum_labels_length=maximum_length,
     )
 
-    @tf.function(input_signature=dataset.element_spec)
     def training_step(source, target):
         # Run the encoder.
         source_inputs = model.features_inputter(source, training=True)
@@ -157,7 +156,6 @@ def translate(source_file, batch_size=32, beam_size=4):
     # Create the inference dataset.
     dataset = model.examples_inputter.make_inference_dataset(source_file, batch_size)
 
-    @tf.function(input_signature=(dataset.element_spec,))
     def predict(source):
         # Run the encoder.
         source_length = source["length"]

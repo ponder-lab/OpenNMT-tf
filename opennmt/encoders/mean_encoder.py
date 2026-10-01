@@ -8,6 +8,7 @@ from opennmt.encoders.encoder import Encoder
 class MeanEncoder(Encoder):
     """A simple encoder that takes the mean of its inputs."""
 
+    @tf.function
     def call(self, inputs, sequence_length=None, training=None):
         outputs = tf.identity(inputs)
         if sequence_length is not None:

@@ -105,6 +105,7 @@ class GradientAccumulator(object):
             )
         return list(gradient.value() for gradient in self._gradients)
 
+    @tf.function
     def __call__(self, gradients):
         """Accumulates :obj:`gradients` on the current replica."""
         if not self._gradients:

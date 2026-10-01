@@ -333,6 +333,7 @@ def _get_direct_children(layer):
     return children
 
 
+@tf.function
 def extract_batches(tensors):
     """Returns a generator to iterate on each batch of a Numpy array or dict of
     Numpy arrays."""

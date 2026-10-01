@@ -17,6 +17,7 @@ class _DummyModel(tf.keras.layers.Layer):
         super().__init__()
         self.layers = [tf.keras.layers.Dense(20), _CustomDense(20)]
 
+    @tf.function(input_signature=[tf.TensorSpec(shape=(4, 10), dtype=tf.float32)])
     def call(self, x):
         for layer in self.layers:
             x = layer(x)
@@ -43,7 +44,6 @@ class CheckpointTest(tf.test.TestCase):
         model = _DummyModel()
         optimizer = tf.keras.optimizers.Adam()
 
-        @tf.function
         def _build_model():
             x = tf.random.uniform([4, 10])
             y = model(x)

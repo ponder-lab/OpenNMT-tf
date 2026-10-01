@@ -193,6 +193,7 @@ class DecodingStrategy(abc.ABC):
 class GreedySearch(DecodingStrategy):
     """A basic greedy search strategy."""
 
+    @tf.function
     def initialize(self, start_ids, attention_size=None):
         batch_size = tf.shape(start_ids)[0]
         finished = tf.zeros([batch_size], dtype=tf.bool)
@@ -658,6 +659,7 @@ def _sample_from(logits, num_samples, temperature=None):
     return tf.random.categorical(logits, num_samples, dtype=tf.int32)
 
 
+@tf.function(input_signature=[tf.TensorSpec(shape=(3, 10), dtype=tf.int32), tf.TensorSpec(shape=(3, 2), dtype=tf.int32)])
 def _gather_from_word_indices(tensor, indices):
     """Index the depth dim of a 2D tensor."""
     return tf.gather(tensor, indices, axis=-1, batch_dims=1)

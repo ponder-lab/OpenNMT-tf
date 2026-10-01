@@ -56,6 +56,7 @@ class Dense(tf.keras.layers.Dense):
             return self.weight
         return super().add_weight(name, *args, **kwargs)
 
+    @tf.function
     def call(self, inputs):
         shape = shape_list(inputs)
         rank = len(shape)
@@ -130,6 +131,7 @@ class LayerWrapper(tf.keras.layers.Layer):
         self.output_dropout = output_dropout
         self.residual_connection = residual_connection
 
+    @tf.function
     def call(self, inputs, *args, **kwargs):
         """Runs the wrapper."""
         training = kwargs.get("training")

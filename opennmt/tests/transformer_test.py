@@ -162,7 +162,7 @@ class TransformerTest(tf.test.TestCase):
     def testMultiHeadSelfAttentionRelativeGradients(self):
         attention = transformer.MultiHeadAttention(4, 20, maximum_relative_position=6)
 
-        @tf.function
+        @tf.function(input_signature=[tf.TensorSpec(shape=(4, 1, 10), dtype=tf.float32)])
         def _compute_gradients_in_function(x):
             with tf.GradientTape() as tape:
                 y, _ = attention(x)

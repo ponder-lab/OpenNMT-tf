@@ -11,6 +11,7 @@ from opennmt.layers.reducer import JoinReducer
 class Encoder(tf.keras.layers.Layer):
     """Base class for encoders."""
 
+    @tf.function(input_signature=[tf.TensorSpec(shape=(4, 5, 10), dtype=tf.float64), tf.TensorSpec(shape=(4,), dtype=tf.int32)])
     def build_mask(self, inputs, sequence_length=None, dtype=tf.bool):
         """Builds a boolean mask for :obj:`inputs`."""
         if sequence_length is None:

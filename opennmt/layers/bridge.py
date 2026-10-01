@@ -5,6 +5,7 @@ import abc
 import tensorflow as tf
 
 
+@tf.function
 def assert_state_is_compatible(expected_state, state):
     """Asserts that states are compatible.
 
@@ -56,6 +57,7 @@ class Bridge(tf.keras.layers.Layer):
 class CopyBridge(Bridge):
     """A bridge that passes the encoder state as is."""
 
+    @tf.function
     def call(self, states):
         encoder_state, decoder_state = states
         assert_state_is_compatible(encoder_state, decoder_state)
@@ -97,6 +99,7 @@ class DenseBridge(Bridge):
             sum(self.decoder_state_sizes), activation=self.activation
         )
 
+    @tf.function
     def call(self, states):
         encoder_state, decoder_state = states
         encoder_state_flat = tf.nest.flatten(encoder_state)

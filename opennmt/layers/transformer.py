@@ -60,6 +60,7 @@ def split_heads(inputs, num_heads):
     return outputs
 
 
+@tf.function
 def combine_heads(inputs):
     """Concatenates heads.
 
@@ -98,6 +99,7 @@ def relative_positions(length, maximum_position, with_cache=False):
     return distance + maximum_position  # Return positive indices.
 
 
+@tf.function
 def matmul_with_relative_representations(a, b, transpose_b=False):
     """Multiplies :obj:`a` with the relative representations :obj:`b`.
 
@@ -143,6 +145,7 @@ class FeedForwardNetwork(tf.keras.layers.Layer):
         self.outer = common.Dense(output_dim)
         self.dropout = dropout
 
+    @tf.function
     def call(self, inputs, training=None):
         """Runs the layer."""
         inner = self.inner(inputs)
@@ -281,6 +284,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
             )
         super().build(input_shape)
 
+    @tf.function
     def call(self, inputs, memory=None, mask=None, cache=None, training=None):
         """Runs the layer.
 
@@ -299,6 +303,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
           weights (if :obj:`return_attention` is ``True``).
         """
 
+        @tf.function
         def _compute_kv(x):
             keys = self.linear_keys(x)
             keys = split_heads(keys, self.num_heads)
@@ -485,6 +490,7 @@ class SelfAttentionEncoderLayer(tf.keras.layers.Layer):
         )
         self.ffn = TransformerLayerWrapper(self.ffn, dropout, pre_norm=pre_norm)
 
+    @tf.function
     def call(self, x, mask=None, training=None):
         """Runs the encoder layer."""
         y, _ = self.self_attention(x, mask=mask, training=training)

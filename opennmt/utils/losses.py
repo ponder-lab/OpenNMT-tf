@@ -96,6 +96,7 @@ def cross_entropy_sequence_loss(
     return loss, loss_normalizer, loss_token_normalizer
 
 
+@tf.function
 def cross_entropy_loss(logits, labels, label_smoothing=0.0, training=None, weight=None):
     """Computes the cross entropy loss.
 
