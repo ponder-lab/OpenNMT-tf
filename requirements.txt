@@ -11,3 +11,6 @@ pyonmttok==1.38.1
 pyyaml==6.0.3
 rouge==1.0.1
 sacrebleu==2.2.1
+#
+# parameterized is setup.py's tests_require pin, for the tests under opennmt/tests/ that import it.
+parameterized==0.8.1
