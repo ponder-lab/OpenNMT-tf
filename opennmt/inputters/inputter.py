@@ -143,6 +143,7 @@ class Inputter(tf.keras.layers.Layer):
         """Returns the input signature of this inputter."""
         raise NotImplementedError()
 
+    @tf.function
     def get_length(self, features, ignore_special_tokens=False):
         """Returns the length of the input features, if defined.
 

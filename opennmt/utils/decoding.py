@@ -287,6 +287,7 @@ class BeamSearch(DecodingStrategy):
             )
         return start_ids, finished, initial_log_probs, extra_vars
 
+    @tf.function
     def _get_scores(
         self, log_probs, sequence_lengths, finished, accumulated_attention=None
     ):
@@ -751,6 +752,7 @@ def _gather_tree(step_ids, parent_ids, max_sequence_lengths, end_token):
     return output_ids
 
 
+@tf.function
 def _gather_tree_from_array(t, parent_ids, sequence_length):
     """Calculates the full beams for a ``TensorArray``.
 
