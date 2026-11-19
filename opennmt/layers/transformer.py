@@ -491,6 +491,7 @@ class SelfAttentionEncoderLayer(tf.keras.layers.Layer):
         y = self.ffn(y, training=training)
         return y
 
+    @tf.function
     def map_v1_weights(self, weights):
         m = []
         m += self.self_attention.map_v1_weights(weights["multi_head"])

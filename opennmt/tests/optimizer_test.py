@@ -72,7 +72,6 @@ class OptimizerTest(tf.test.TestCase):
                 local_variables[1].assign(grad2)
                 strategy.run(accumulate_on_replica, args=(gradient_placeholder,))
 
-        @tf.function
         def apply_grad():
             with strategy.scope():
                 strategy.run(apply_on_replica)
