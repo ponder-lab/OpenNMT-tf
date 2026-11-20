@@ -184,6 +184,7 @@ class TokenizerTest(tf.test.TestCase):
     def testOpenNMTTokenizerInFunction(self):
         tokenizer = tokenizers.OpenNMTTokenizer()
 
+        @tf.function(input_signature=[tf.TensorSpec(shape=(), dtype=tf.string)])
         def _tokenize(text):
             return tokenizer.tokenize(text)
 

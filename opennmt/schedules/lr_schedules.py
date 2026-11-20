@@ -104,7 +104,7 @@ class ScheduleWrapper(tf.keras.optimizers.schedules.LearningRateSchedule):
         self.step_duration = step_duration
         self.minimum_learning_rate = minimum_learning_rate
 
-    @tf.function(input_signature=[tf.TensorSpec(shape=None, dtype=tf.int32)])
+    @tf.function(input_signature=[tf.TensorSpec(shape=None, dtype=tf.int64)])
     def __call__(self, step):
         # Map the training step to a decay step.
         step = tf.maximum(step - self.step_start, 0)
@@ -129,7 +129,7 @@ class NoamDecay(tf.keras.optimizers.schedules.LearningRateSchedule):
         self.model_dim = tf.cast(model_dim, tf.float32)
         self.warmup_steps = tf.cast(warmup_steps, tf.float32)
 
-    @tf.function(input_signature=[tf.TensorSpec(shape=(), dtype=tf.int64)])
+    @tf.function
     def __call__(self, step):
         step = tf.cast(step + 1, tf.float32)
         return (

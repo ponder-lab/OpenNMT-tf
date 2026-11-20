@@ -261,7 +261,6 @@ class SequenceToSequence(model.SequenceGenerator):
             outputs["noisy_logits"] = noisy_logits
         return outputs
 
-    @tf.function
     def _dynamic_decode(
         self,
         features,
@@ -647,7 +646,6 @@ def replace_unknown_target(
     )
 
 
-@tf.function
 def _add_noise(tokens, lengths, params, subword_token, is_spacer=None):
     if not isinstance(params, list):
         raise ValueError("Expected a list of noise modules")

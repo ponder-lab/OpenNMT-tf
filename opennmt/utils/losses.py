@@ -96,7 +96,6 @@ def cross_entropy_sequence_loss(
     return loss, loss_normalizer, loss_token_normalizer
 
 
-@tf.function
 def cross_entropy_loss(logits, labels, label_smoothing=0.0, training=None, weight=None):
     """Computes the cross entropy loss.
 
@@ -210,6 +209,7 @@ def _is_bias(variable):
     return len(variable.shape) == 1 and variable.name.endswith("bias:0")
 
 
+@tf.function
 def _negative_log_likelihood(logits, labels, sequence_length):
     nll_num, nll_den, _ = cross_entropy_sequence_loss(
         logits, labels, sequence_length, average_in_time=True
@@ -217,6 +217,7 @@ def _negative_log_likelihood(logits, labels, sequence_length):
     return nll_num / nll_den
 
 
+@tf.function
 def max_margin_loss(
     true_logits,
     true_labels,

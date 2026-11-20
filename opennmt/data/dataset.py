@@ -282,6 +282,7 @@ def random_shard(shard_size, dataset_size):
         0, dataset_size, num=num_shards, endpoint=False, dtype=np.int64
     )
 
+    @tf.function
     def _random_shard(dataset):
         sharded_dataset = tf.data.Dataset.from_tensor_slices(offsets)
         sharded_dataset = sharded_dataset.shuffle(num_shards)
@@ -453,9 +454,11 @@ def batch_sequence_dataset(
 
         return bucket_id
 
+    @tf.function
     def _reduce_func(unused_key, dataset):
         return dataset.apply(batch_dataset(batch_size, padded_shapes=padded_shapes))
 
+    @tf.function
     def _window_size_func(key):
         bucket_max_length = (key + 1) * length_bucket_width
         size = batch_size // bucket_max_length
@@ -701,6 +704,7 @@ def inference_pipeline(
         output a dictionary structure.
     """
 
+    @tf.function
     def _inject_index(index, x):
         if isinstance(x, tuple):
             features = x[0]

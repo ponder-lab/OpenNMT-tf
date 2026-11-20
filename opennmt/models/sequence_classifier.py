@@ -60,7 +60,6 @@ class SequenceClassifier(Model):
 
         return logits, predictions
 
-    @tf.function
     def compute_loss(self, outputs, labels, training=True):
         return cross_entropy_loss(
             outputs,

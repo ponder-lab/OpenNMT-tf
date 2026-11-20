@@ -3,7 +3,7 @@
 import tensorflow as tf
 
 
-@tf.function(input_signature=[tf.TensorSpec(shape=None, dtype=tf.string)])
+@tf.function
 def tokens_to_chars(tokens):
     """Splits tokens into unicode characters.
 
