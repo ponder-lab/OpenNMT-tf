@@ -104,7 +104,7 @@ class ScheduleWrapper(tf.keras.optimizers.schedules.LearningRateSchedule):
         self.step_duration = step_duration
         self.minimum_learning_rate = minimum_learning_rate
 
-    @tf.function(input_signature=[tf.TensorSpec(shape=None, dtype=tf.int64)])
+    @tf.function(reduce_retracing=True)
     def __call__(self, step):
         # Map the training step to a decay step.
         step = tf.maximum(step - self.step_start, 0)
@@ -163,7 +163,7 @@ class RsqrtDecay(tf.keras.optimizers.schedules.LearningRateSchedule):
         self.scale = tf.cast(scale, tf.float32)
         self.warmup_steps = tf.cast(warmup_steps, tf.float32)
 
-    @tf.function(input_signature=[tf.TensorSpec(shape=(), dtype=tf.int64)])
+    @tf.function(reduce_retracing=True)
     def __call__(self, step):
         step = tf.cast(step, tf.float32)
         return self.scale * tf.math.rsqrt(tf.maximum(step, self.warmup_steps))
@@ -245,7 +245,7 @@ class CosineAnnealing(tf.keras.optimizers.schedules.LearningRateSchedule):
             tf.cast(warmup_steps, tf.float32) if warmup_steps is not None else None
         )
 
-    @tf.function(input_signature=[tf.TensorSpec(shape=(), dtype=tf.int64)])
+    @tf.function(reduce_retracing=True)
     def __call__(self, step):
         step = tf.cast(step, tf.float32)
         annealing = lambda: (
@@ -284,7 +284,7 @@ class RNMTPlusDecay(tf.keras.optimizers.schedules.LearningRateSchedule):
         self.start_step = tf.cast(start_step, tf.float32)
         self.end_step = tf.cast(end_step, tf.float32)
 
-    @tf.function(input_signature=[tf.TensorSpec(shape=(), dtype=tf.int64)])
+    @tf.function(reduce_retracing=True)
     def __call__(self, step):
         t = tf.cast(step, tf.float32)
         n = self.num_replicas
