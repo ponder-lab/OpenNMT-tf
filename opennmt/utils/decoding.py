@@ -193,7 +193,6 @@ class DecodingStrategy(abc.ABC):
 class GreedySearch(DecodingStrategy):
     """A basic greedy search strategy."""
 
-    @tf.function
     def initialize(self, start_ids, attention_size=None):
         batch_size = tf.shape(start_ids)[0]
         finished = tf.zeros([batch_size], dtype=tf.bool)
@@ -288,6 +287,7 @@ class BeamSearch(DecodingStrategy):
             )
         return start_ids, finished, initial_log_probs, extra_vars
 
+    @tf.function
     def _get_scores(
         self, log_probs, sequence_lengths, finished, accumulated_attention=None
     ):
@@ -659,7 +659,6 @@ def _sample_from(logits, num_samples, temperature=None):
     return tf.random.categorical(logits, num_samples, dtype=tf.int32)
 
 
-@tf.function
 def _gather_from_word_indices(tensor, indices):
     """Index the depth dim of a 2D tensor."""
     return tf.gather(tensor, indices, axis=-1, batch_dims=1)
@@ -753,6 +752,7 @@ def _gather_tree(step_ids, parent_ids, max_sequence_lengths, end_token):
     return output_ids
 
 
+@tf.function
 def _gather_tree_from_array(t, parent_ids, sequence_length):
     """Calculates the full beams for a ``TensorArray``.
 

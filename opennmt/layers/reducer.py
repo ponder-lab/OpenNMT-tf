@@ -8,7 +8,6 @@ import tensorflow as tf
 from opennmt.utils import tensor as tensor_util
 
 
-@tf.function
 def pad_in_time(x, padding_length):
     """Helper function to pad a tensor in the time dimension and retain the
     static depth dimension.
@@ -92,6 +91,7 @@ def pad_n_with_identity(inputs, sequence_lengths, identity_values=0):
 class Reducer(tf.keras.layers.Layer):
     """Base class for reducers."""
 
+    @tf.function
     def zip_and_reduce(self, x, y):
         """Zips the :obj:`x` with :obj:`y` structures together and reduces all
         elements. If the structures are nested, they will be flattened first.
@@ -161,9 +161,11 @@ class SumReducer(Reducer):
 class MultiplyReducer(Reducer):
     """A reducer that multiplies the inputs."""
 
+    @tf.function
     def reduce(self, inputs):
         return functools.reduce(lambda a, x: a * x, inputs)
 
+    @tf.function
     def reduce_sequence(self, inputs, sequence_lengths):
         padded, combined_length = pad_n_with_identity(
             inputs, sequence_lengths, identity_values=1
@@ -185,6 +187,7 @@ class ConcatReducer(Reducer):
         super().__init__(**kwargs)
         self.axis = axis
 
+    @tf.function
     def reduce(self, inputs):
         return tf.concat(inputs, self.axis)
 
@@ -252,6 +255,7 @@ class DenseReducer(ConcatReducer):
         super().__init__(axis=-1, **kwargs)
         self.dense = tf.keras.layers.Dense(output_size, activation=activation)
 
+    @tf.function
     def reduce(self, inputs):
         inputs = super().reduce(inputs)
         return self.dense(inputs)

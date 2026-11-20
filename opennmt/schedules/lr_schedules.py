@@ -104,6 +104,7 @@ class ScheduleWrapper(tf.keras.optimizers.schedules.LearningRateSchedule):
         self.step_duration = step_duration
         self.minimum_learning_rate = minimum_learning_rate
 
+    @tf.function
     def __call__(self, step):
         # Map the training step to a decay step.
         step = tf.maximum(step - self.step_start, 0)

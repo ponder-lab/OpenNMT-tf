@@ -406,7 +406,6 @@ class WordEmbedder(TextInputter):
         if mark_end is not None:
             self.mark_end = mark_end
 
-    @tf.function
     def get_length(self, features, ignore_special_tokens=False):
         length = features["length"]
         if ignore_special_tokens:
@@ -419,7 +418,6 @@ class WordEmbedder(TextInputter):
             length -= num_special_tokens
         return length
 
-    @tf.function
     def get_oov_tokens(self, features):
         tokens, ids = features["tokens"], features["ids"]
         if self.mark_start:
@@ -579,6 +577,7 @@ class CharEmbedder(TextInputter):
             num_oov_buckets=self.num_oov_buckets,
         )
 
+    @tf.function
     def _embed(self, inputs, training):
         mask = tf.math.not_equal(inputs, 0)
         outputs = tf.nn.embedding_lookup(self.embedding, inputs)

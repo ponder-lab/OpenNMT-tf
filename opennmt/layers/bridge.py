@@ -37,6 +37,7 @@ def assert_state_is_compatible(expected_state, state):
 class Bridge(tf.keras.layers.Layer):
     """Base class for bridges."""
 
+    @tf.function
     def __call__(self, encoder_state, decoder_zero_state):
         """Returns the initial decoder state.
 

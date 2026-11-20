@@ -75,7 +75,6 @@ class SelfAttentionEncoder(Encoder):
             for i in range(num_layers)
         ]
 
-    @tf.function
     def call(self, inputs, sequence_length=None, training=None):
         inputs *= self.num_units**0.5
         if self.position_encoder is not None:
@@ -87,6 +86,7 @@ class SelfAttentionEncoder(Encoder):
         outputs = self.layer_norm(inputs) if self.layer_norm is not None else inputs
         return outputs, None, sequence_length
 
+    @tf.function
     def map_v1_weights(self, weights):
         m = []
         m += self.layer_norm.map_v1_weights(weights["LayerNorm"])

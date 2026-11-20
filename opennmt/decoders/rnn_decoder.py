@@ -159,6 +159,7 @@ class AttentionalRNNDecoder(RNNDecoder):
                 decoder_state = decoder_state.clone(cell_state=cell_state)
         return decoder_state
 
+    @tf.function
     def step(
         self,
         inputs,
@@ -229,6 +230,7 @@ class RNMTPlusDecoder(decoder.Decoder):
     def support_alignment_history(self):
         return True
 
+    @tf.function
     def _get_initial_state(self, batch_size, dtype, initial_state=None):
         return tuple(
             cell.get_initial_state(batch_size=batch_size, dtype=dtype)

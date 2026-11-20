@@ -25,6 +25,7 @@ class EncoderTest(tf.test.TestCase):
         test_case = self
 
         class _Encoder(encoders.Encoder):
+            @tf.function
             def call(self, inputs, sequence_length=None, training=None):
                 test_case.assertAllEqual(inputs, [[1, 2, 3], [4, 0, 0], [5, 6, 0]])
                 test_case.assertAllEqual(sequence_length, [3, 1, 2])

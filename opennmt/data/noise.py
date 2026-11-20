@@ -114,6 +114,7 @@ class WordNoiser(object):
 
         return noisy_tokens, new_lengths
 
+    @tf.function
     def _maybe_apply_noise(self, tokens, probability):
         if probability == 1:
             return self._apply_noise(tokens)
@@ -126,6 +127,7 @@ class WordNoiser(object):
                 false_fn=lambda: tokens,
             )
 
+    @tf.function
     def _apply_noise(self, tokens):
         words = text.tokens_to_words(
             tokens, subword_token=self.subword_token, is_spacer=self.is_spacer
@@ -140,6 +142,7 @@ class WordNoiser(object):
 class Noise(abc.ABC):
     """Base class for noise modules."""
 
+    @tf.function
     def __call__(self, words):
         """Applies noise on a sequence of words.
 
@@ -202,6 +205,7 @@ class WordDropout(Noise):
         """
         self.dropout = dropout
 
+    @tf.function
     def _apply(self, words):
         if self.dropout == 0:
             return tf.identity(words)
@@ -239,6 +243,7 @@ class WordOmission(Noise):
         """
         self.count = count
 
+    @tf.function
     def _apply(self, words):
         if self.count == 0:
             return tf.identity(words)
@@ -271,6 +276,7 @@ class WordReplacement(Noise):
         self.probability = probability
         self.filler = filler
 
+    @tf.function
     def _apply(self, words):
         if self.probability == 0:
             return tf.identity(words)
@@ -304,6 +310,7 @@ class WordPermutation(Noise):
         """
         self.max_distance = max_distance
 
+    @tf.function
     def _apply(self, words):
         if self.max_distance == 0:
             return tf.identity(words)
