@@ -66,7 +66,7 @@ def train(
     checkpoint_manager,
     maximum_length=100,
     shuffle_buffer_size=-1,  # Uniform shuffle.
-    # Bound for the corpus harness: 1000 steps record every signature 2000 do (bound trial).
+    # Bound for the corpus harness: 1000 steps record the same signatures as 2000 (bound trial).
     train_steps=1000,
     save_every=1000,
     report_every=100,
