@@ -577,6 +577,7 @@ class CharEmbedder(TextInputter):
             num_oov_buckets=self.num_oov_buckets,
         )
 
+    @tf.function
     def _embed(self, inputs, training):
         mask = tf.math.not_equal(inputs, 0)
         outputs = tf.nn.embedding_lookup(self.embedding, inputs)

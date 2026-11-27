@@ -7,6 +7,7 @@ from opennmt.utils import decoding
 def _generate_logits_fn(vocab_size, to_generate):
     to_generate = tf.convert_to_tensor(to_generate, dtype=tf.int32)
 
+    @tf.function
     def _logits_fn(symbols, step, state):
         logits = tf.one_hot(to_generate[:, step], vocab_size, dtype=tf.float32)
         return logits, state

@@ -3,6 +3,7 @@
 import tensorflow as tf
 
 
+@tf.function
 def tokens_to_chars(tokens):
     """Splits tokens into unicode characters.
 
