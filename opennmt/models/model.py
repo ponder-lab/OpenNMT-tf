@@ -286,6 +286,7 @@ class Model(tf.keras.layers.Layer):
         """
         raise NotImplementedError()
 
+    @tf.function
     def regularize_loss(self, loss, variables=None):
         """Regularizes the loss.
 

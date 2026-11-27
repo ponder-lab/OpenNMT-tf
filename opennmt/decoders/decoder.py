@@ -313,6 +313,7 @@ class Decoder(tf.keras.layers.Layer):
         inputs_ta = tf.TensorArray(inputs.dtype, size=max_step)
         inputs_ta = inputs_ta.unstack(tf.transpose(inputs, perm=[1, 0, 2]))
 
+        @tf.function
         def _maybe_sample(true_inputs, logits):
             # Read from samples with a probability.
             draw = tf.random.uniform([batch_size])

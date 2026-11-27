@@ -435,6 +435,7 @@ class MirroredStrategyTrainer(Trainer):
             super()._update_moving_average(moving_average)
 
 
+@tf.function
 def _summarize_gradients(gradients, should_record):
     # Only compute the gradients global norm when the value is actually recorded.
     if isinstance(should_record, bool) and not should_record:
