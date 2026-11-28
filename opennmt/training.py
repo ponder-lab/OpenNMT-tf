@@ -478,6 +478,7 @@ class MovingAverage(object):
         self._ema = tf.train.ExponentialMovingAverage(decay, num_updates=step)
         self._variables = variables
 
+    @tf.function
     def update(self):
         """Updates the moving average of the variables."""
         self._ema.apply(self._variables)
@@ -715,6 +716,7 @@ class TrainingStats:
             self._words_counters[name] = counter
         counter.assign_add(tf.cast(num_words, tf.int64))
 
+    @tf.function
     def _get_words_counters(self):
         """Returns the accumulated words counters.
 
@@ -729,6 +731,7 @@ class TrainingStats:
             counters[name] = counter
         return counters
 
+    @tf.function
     def _reset_words_counters(self):
         """Resets the accumulated words counters."""
         for counter in self._words_counters.values():
